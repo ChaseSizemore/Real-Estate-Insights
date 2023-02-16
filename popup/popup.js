@@ -30,6 +30,12 @@ const options = {
         let medPrice = json.data.geo.geo_statistics.housing_market.median_listing_price;
         let medRent = json.data.geo.geo_statistics.housing_market.median_rent_price;
 
+
+
+
+
+
+
         //   let price = document.createElement('div')
         //   price.setAttribute('id', 'price');
           document.querySelector('#med-sale').innerHTML =  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
@@ -38,5 +44,24 @@ const options = {
             Math.trunc(medRent));
         //   document.querySelector('body').appendChild(price)
 
+
     }
+    // GET ZIP
+    const zipCodeOptions = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '68472990admsh21660c6e0a592c0p1a1890jsn9766bb4a8a13',
+            'X-RapidAPI-Host': 'google-maps-geocoding.p.rapidapi.com'
+        }
+    };
+
+    const zip = new RegExp('[0-9]{5}')
+    
+    fetch('https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=40.714224%2C-73.96145&result_type=postal_code&language=en', options)
+    	.then(response => response.json())
+    	.then(response => {
+            let zipCode = response.results[0]["formatted_address"].match(zip)[0];
+            
+        })
+
     request()
