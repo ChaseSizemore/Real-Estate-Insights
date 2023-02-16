@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Average Rent",
+  "description": "Gets average rent based on zipcode",
+  "version": "1.0",
+  "action": {
+    "default_popup": "hello.html",
+    "default_icon": "assets/house.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.codesmith.io/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "clipboardWrite",
+    "clipboardRead"
+  ]
+}
