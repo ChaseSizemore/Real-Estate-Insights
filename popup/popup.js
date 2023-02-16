@@ -1,10 +1,22 @@
 // BUTTON
-let input = document.querySelector('#userInput').value
+// let input = document.querySelector('#userInput').value
 let button = document.querySelector('button')
 
 button.addEventListener('click', ()=>{
-    console.log('buttoned')
-    // request()
+    // console.log('buttoned')
+    if(document.querySelector('#userInput').value.length === 5){
+        let input = document.querySelector('#userInput').value
+        request(input);
+    }
+    if(document.querySelector('#userInput').value){
+        let coordArr = [a,b] = document.querySelector('#userInput').value.split(', ')
+        // let input = document.querySelector('#userInput').value
+        // console.log(input);
+        // console.log(Number(coordArr[0]))
+        // request(input);
+        requestZipFromCoords(Number(coordArr[0]), Number(coordArr[1]));
+    }
+
 })
 
 
@@ -24,17 +36,29 @@ const options = {
 //     })
 // 	.catch(err => console.error(err));
 
-    const request = async () => {
-        const response = await fetch('https://us-real-estate.p.rapidapi.com/v2/for-sale-by-zipcode?zipcode=10027&offset=0&limit=42', options);
+    // const request = async (zipcode) => {
+    //     const response = await fetch('https://us-real-estate.p.rapidapi.com/v2/for-sale-by-zipcode?zipcode=10011&offset=0&limit=42', options);
+    //     const json = await response.json();
+    //     let medPrice = json.data.geo.geo_statistics.housing_market.median_listing_price;
+    //     let medRent = json.data.geo.geo_statistics.housing_market.median_rent_price;
+
+
+    //     //   let price = document.createElement('div')
+    //     //   price.setAttribute('id', 'price');
+    //       document.querySelector('#med-sale').innerHTML =  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
+    //         Math.trunc(medPrice));
+    //     document.querySelector('#med-rent').innerHTML = new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
+    //         Math.trunc(medRent));
+    //     //   document.querySelector('body').appendChild(price)
+
+
+    // }
+
+    const request = async (zipcode) => {
+        const response = await fetch(`https://us-real-estate.p.rapidapi.com/v2/for-sale-by-zipcode?zipcode=${zipcode}&offset=0&limit=42`, options);
         const json = await response.json();
         let medPrice = json.data.geo.geo_statistics.housing_market.median_listing_price;
         let medRent = json.data.geo.geo_statistics.housing_market.median_rent_price;
-
-
-
-
-
-
 
         //   let price = document.createElement('div')
         //   price.setAttribute('id', 'price');
@@ -44,8 +68,19 @@ const options = {
             Math.trunc(medRent));
         //   document.querySelector('body').appendChild(price)
 
+        if(medPrice > 1000000){
+            document.querySelector('#med-sale').style.color = 'red';
+            document.querySelector('.answer').innerHTML = 'No.'
+        }
+        if(medRent > 5000){
+            document.querySelector('#med-rent').style.color = 'red';
+            document.querySelector('.answer').innerHTML = 'No.'
+        }
+
 
     }
+
+
     // GET ZIP
     const zipCodeOptions = {
         method: 'GET',
@@ -56,12 +91,22 @@ const options = {
     };
 
     const zip = new RegExp('[0-9]{5}')
-    
-    fetch('https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=40.714224%2C-73.96145&result_type=postal_code&language=en', options)
-    	.then(response => response.json())
-    	.then(response => {
-            let zipCode = response.results[0]["formatted_address"].match(zip)[0];
-            
-        })
 
-    request()
+
+    const requestZipFromCoords = async (lat, lng) => {
+        const response = await fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${lat}%2C${lng}&result_type=postal_code&language=en`, zipCodeOptions);
+        const json = await response.json();
+        // console.log(json);
+        let zipCode = json.results[0]["formatted_address"].match(zip)[0];
+        // console.log(zipCode);
+        request(zipCode);
+    }
+    
+    // fetch('https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=40.714224%2C-73.96145&result_type=postal_code&language=en', options)
+    // 	.then(response => response.json())
+    // 	.then(response => {
+    //         let zipCode = response.results[0]["formatted_address"].match(zip)[0];
+    //         console.log(zipCode);
+    //     })
+
+    // request()
