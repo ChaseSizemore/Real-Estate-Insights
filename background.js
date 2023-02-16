@@ -30,21 +30,21 @@ chrome.runtime.onInstalled.addListener(function() {
         // const buttonInput = document.querySelector('input').value;
         // const input= `${buttonInput}`.replace(', ', '%2C')
         console.log('test');
-        // fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${input}&result_type=postal_code&language=en`, zipCodeOptions)
-        // .then(response => response.json())
-        // .then(response => {
-        //     const div = document.querySelector('.final');
-        //  let zipCode = response.results[0]["formatted_address"].match(zip)[0];
+        fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?latlng=${input}&result_type=postal_code&language=en`, zipCodeOptions)
+        .then(response => response.json())
+        .then(response => {
+            const div = document.querySelector('.final');
+         let zipCode = response.results[0]["formatted_address"].match(zip)[0];
             
-        //     fetch(`https://us-real-estate.p.rapidapi.com/v2/for-sale-by-zipcode?zipcode=${zipCode}&offset=0&limit=42`, housingOptions)
-        //         .then(response => response.json())
-        //         .then(response => {
+            fetch(`https://us-real-estate.p.rapidapi.com/v2/for-sale-by-zipcode?zipcode=${zipCode}&offset=0&limit=42`, housingOptions)
+                .then(response => response.json())
+                .then(response => {
                     
-        //         }
+                }
                     
-        //             )
-        //         .catch(err => console.error(err));
-        // })
+                    )
+                .catch(err => console.error(err));
+        })
     
     });
     
