@@ -59,13 +59,17 @@ const options = {
         const json = await response.json();
         let medPrice = json.data.geo.geo_statistics.housing_market.median_listing_price;
         let medRent = json.data.geo.geo_statistics.housing_market.median_rent_price;
-
+        console.log(json)
         //   let price = document.createElement('div')
         //   price.setAttribute('id', 'price');
+        
+        document.querySelector('#sale-text').innerHTML = 'Med Price:'
           document.querySelector('#med-sale').innerHTML =  new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
             Math.trunc(medPrice));
+
+        document.querySelector('#rent-text').innerHTML = ' Med Rent:'
         document.querySelector('#med-rent').innerHTML = new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
-            Math.trunc(medRent));
+            medRent);
         //   document.querySelector('body').appendChild(price)
 
         if(medPrice > 1000000){
@@ -110,3 +114,17 @@ const options = {
     //     })
 
     // request()
+
+    let currentUrl = []
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+
+        // since only one tab should be active and in the current window at once
+        // the return variable should only have one entry
+    currentUrl.push(tabs[0].url)
+     });
+
+    
+     document.querySelector('body').addEventListener('click', ()=>{
+        console.log(currentUrl)
+     })
