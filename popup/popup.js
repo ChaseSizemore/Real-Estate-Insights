@@ -23,8 +23,8 @@ button.addEventListener('click', ()=>{
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '68472990admsh21660c6e0a592c0p1a1890jsn9766bb4a8a13',
-		'X-RapidAPI-Host': 'us-real-estate.p.rapidapi.com'
+		'X-RapidAPI-Key': '',
+		'X-RapidAPI-Host': ''
 	}
 };
 
